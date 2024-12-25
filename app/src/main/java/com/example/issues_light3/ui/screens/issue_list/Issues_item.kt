@@ -1,4 +1,4 @@
-package com.example.issues_light3
+package com.example.issues_light3.ui.screens.issue_list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,34 +10,36 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.issues_light3.ui.theme.Issues_light3Theme
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.sp // Import for text size in sp
-
+import androidx.compose.ui.unit.sp
+import com.example.issues_light3.R
+import com.example.issues_light3.ui.screens.issue_list.preview.fakeIssueList
 
 
 @Composable
-fun IssueItem(modifier: Modifier = Modifier) {
+fun IssueItem(
+    githubIssueUiModel: GithubIssueUiModel,
+    modifier: Modifier = Modifier,
+    onItemClick: () -> Unit
+) {
     Row (
         Modifier.fillMaxWidth()
             .padding(top = 8.dp)
             .padding(horizontal = 8.dp)
             .background(
-                color = Color.White,
-                shape = RoundedCornerShape(12.dp)
+                color = MaterialTheme.colorScheme.onBackground,
+                shape = MaterialTheme.shapes.medium
 
             )
     ){
@@ -57,11 +59,8 @@ fun IssueItem(modifier: Modifier = Modifier) {
             ){
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = "Bump werkzeug from",
-                    style = androidx.compose.ui.text.TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
+                    text = githubIssueUiModel.name,
+                    style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
 
@@ -69,39 +68,29 @@ fun IssueItem(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.width(30.dp))
                 Text(
                     text = "Open",
-                    style = androidx.compose.ui.text.TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
-                    ),
+                    style = MaterialTheme.typography.labelMedium,
 
                 )
             }
 
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "NONE",
-                style = androidx.compose.ui.text.TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium
-                )
+                text = githubIssueUiModel.type,
+                style = MaterialTheme.typography.labelLarge
             )
             Spacer(Modifier.height(8.dp))
-            Row {
+            Row (
+                verticalAlignment = Alignment.CenterVertically
+            ){
                 Text(
                     text = "Created at:",
-                    style = androidx.compose.ui.text.TextStyle(
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    style = MaterialTheme.typography.labelLarge,
 
                 )
                 Spacer(modifier = Modifier.width(2.dp))
                 Text(
-                    text = "2023-10-25, 18:52 PM",
-                    style = androidx.compose.ui.text.TextStyle(
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Light
-                    )
+                    text = githubIssueUiModel.date,
+                    style = MaterialTheme.typography.labelMedium,
                 )
             }
 
@@ -117,7 +106,8 @@ fun IssueItem(modifier: Modifier = Modifier) {
 )
 @Composable
 private fun PreviewIssueItem() {
-    Issues_light3Theme {
-        IssueItem()
-    }
+
+        IssueItem(githubIssueUiModel = fakeIssueList.first(), onItemClick = {})
+
 }
+
